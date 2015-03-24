@@ -7,6 +7,6 @@ Standards-Version: 3.9.3
 
 Package: rutorrent
 Architecture: all
-Depends: ${misc:Depends}, rtorrent, git, apache2, php5, php5-suhosin, openssh-client, sshfingerprints, curl
+Depends: ${misc:Depends}, rtorrent, git, apache2, php5, php5-suhosin, openssh-client, curl
 Description: Download ruTorrent via git, install it, and configure it
  Download ruTorrent via git, install it, and configure it. It will be served via Apache.

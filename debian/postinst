@@ -10,7 +10,7 @@ if [ "$1" = "configure" ]; then
 		exit $err
 	fi
 
-	# password-protect the rutorrent directory
+	# password-protect the rutorrent directory via a .htaccess file
 	db_get rutorrent/simplePassword || RET="test"
 	htpasswd -bc /etc/htaccess rutorrent $RET
 	
