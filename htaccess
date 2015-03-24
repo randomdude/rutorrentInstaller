@@ -1,0 +1,9 @@
+<Directory "/var/www/rutorrent">
+	AuthType Basic
+	AuthName "pls auth to download server"
+	AuthUserFile "/etc/htaccess"
+	Require valid-user
+
+	Order allow,deny
+	Allow from all
+</Directory>

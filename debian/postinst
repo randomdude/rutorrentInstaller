@@ -1,0 +1,53 @@
+#!/bin/bash
+
+. /usr/share/debconf/confmodule
+
+if [ "$1" = "configure" ]; then
+	git clone --depth=1 https://github.com/Novik/ruTorrent.git /var/www/rutorrent
+	if [ $? -ne 0 ]; then
+		err=$?
+		echo "Failed to clone ruTorrent repo, returned $err"
+		exit $err
+	fi
+
+	# password-protect the rutorrent directory
+	db_get rutorrent/simplePassword || RET="test"
+	htpasswd -bc /etc/htaccess rutorrent $RET
+	
+	# Add a user for torrenting as
+	useradd -m rtorrent
+
+	# Copy in our default config (installed by this package)
+	mkdir /home/rtorrent/incoming
+	mkdir /home/rtorrent/.rtorrent
+	chown rtorrent /home/rtorrent/incoming
+	chown rtorrent /home/rtorrent/.rtorrent
+
+	cp /etc/rtorrent.rc.skel /home/rtorrent/.rtorrent.rc
+	chown rtorrent /home/rtorrent/.rtorrent.rc
+
+	chmod -R 750 /home/rtorrent
+
+	# Make some folders rutorrent needs
+	mkdir /var/www/rutorrent/share/users/rutorrent
+	mkdir /var/www/rutorrent/share/users/rutorrent/torrents
+	mkdir /var/www/rutorrent/share/users/rutorrent/settings
+
+	# These folders need to be accessible by both the webserver and rtorrent
+	chown www-data.rtorrent /var/www/rutorrent/share/torrents
+	chown www-data.rtorrent /var/www/rutorrent/share/settings
+	chown www-data.rtorrent /var/www/rutorrent/share/users/rutorrent
+	chmod 770 /var/www/rutorrent/share/torrents
+	chmod 770 /var/www/rutorrent/share/settings
+	chmod 770 /var/www/rutorrent/share/users/rutorrent
+
+	# Make our new service, which simply spawns rtorrent on a new VT
+	echo openvt -s -- su rtorrent -c rtorrent > /etc/init.d/rutorrent
+	chmod +x /etc/init.d/rutorrent
+	update-rc.d rutorrent defaults 98 02
+
+	# Start rtorrent in a new VT.
+	service start rutorrent
+
+	db_get rutorrent/dontforgetkeys
+fi

@@ -1,0 +1,11 @@
+Template: rutorrent/dontforgetkeys
+Type: note
+Default: admin
+Description: Don't forget keys!
+ You will need to configure the 'rtorrent' user's SSH keys, by generating them and copying the public part to Hanako.
+
+Template: rutorrent/simplePassword
+Type: string
+Default: admin
+Description: rutorrent password
+ Password for the 'rutorrent' web access user

@@ -1,0 +1,10 @@
+#!/bin/sh
+
+set -e
+
+. /usr/share/debconf/confmodule
+
+db_input high rutorrent/simplePassword || true
+db_input high rutorrent/dontforgetkeys || true
+
+db_go || true

@@ -1,0 +1,12 @@
+Source: rutorrent
+Section: unknown
+Priority: extra
+Maintainer: randomdude <randomdude@gmail.com>
+Build-Depends: debhelper (>= 8.0.0)
+Standards-Version: 3.9.3
+
+Package: rutorrent
+Architecture: all
+Depends: ${misc:Depends}, rtorrent, git, apache2, php5, php5-suhosin, openssh-client, sshfingerprints, curl
+Description: Download ruTorrent via git, install it, and configure it
+ Download ruTorrent via git, install it, and configure it. It will be served via Apache.
