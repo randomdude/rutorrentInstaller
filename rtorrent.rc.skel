@@ -1,0 +1,13 @@
+directory = ~/incoming
+session = ~/.rtorrent
+scgi_port = localhost:5000
+port_range=6882-6891
+upload_rate = 10
+download_rate = 0
+use_udp_trackers = yes
+
+dht = auto
+peer_exchange = yes
+dht_port = 6881
+ 
+system.method.set_key = event.download.finished,move_complete,"execute=scp,-r,$d.get_base_path=,downloader@hanako:incoming/"
